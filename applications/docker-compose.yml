@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  python-app:
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
+    container_name: python-app
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+      - APP_NAME=python-app
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "python"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  dotnet-app:
+    build:
+      context: ./dotnet-app
+      dockerfile: Dockerfile
+    container_name: dotnet-app
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+      - APP_NAME=dotnet-app
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "dotnet"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  go-app:
+    build:
+      context: ./go-app
+      dockerfile: Dockerfile
+    container_name: go-app
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+      - APP_NAME=go-app
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "main"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nodejs-app:
+    build:
+      context: ./nodejs-app
+      dockerfile: Dockerfile
+    container_name: nodejs-app
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+      - APP_NAME=nodejs-app
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "node"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  rust-app:
+    build:
+      context: ./rust-app
+      dockerfile: Dockerfile
+    container_name: rust-app
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+      - APP_NAME=rust-app
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+    networks:
+      - elk-network
+    depends_on:
+      - logstash
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "rust-logging-app"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  elk-network:
+    external: true
+    name: elk-network
