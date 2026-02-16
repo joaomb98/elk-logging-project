@@ -30,7 +30,6 @@ func main() {
 	fmt.Printf("Go application started - connecting to Logstash at %s:%s\n", logstashHost, logstashPort)
 
 	counter := 0
-	rand.Seed(time.Now().UnixNano())
 
 	for {
 		counter++

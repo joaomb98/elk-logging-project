@@ -262,11 +262,11 @@ chmod +x /tmp/count_logs.sh
 ```bash
 # Generate high volume of logs
 for i in {1..1000}; do
-  echo '{"timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","level":"INFO","message":"Load test '$i'","app_name":"load-test"}' | nc localhost 5000
+  echo '{"timestamp":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","level":"INFO","message":"Load test '$i'","app_name":"load_test"}' | nc localhost 5000
 done
 
 # Check if all logs were indexed
-curl -s "http://localhost:9200/logs-*/_count?q=app_name:load-test" | jq .
+curl -s "http://localhost:9200/logs-*/_count?q=app_name:load_test" | jq .
 ```
 
 ### Monitor Resource Usage
