@@ -38,7 +38,7 @@ help:
 # ELK Stack commands
 elk-up:
 	@echo "Starting ELK Stack..."
-	cd elk-stack && docker-compose up -d
+	cd elk-stack && docker compose up -d
 	@echo "Waiting for services to be healthy..."
 	@sleep 10
 	@echo "ELK Stack started!"
@@ -48,30 +48,30 @@ elk-up:
 
 elk-down:
 	@echo "Stopping ELK Stack..."
-	cd elk-stack && docker-compose down
+	cd elk-stack && docker compose down
 
 elk-restart:
 	@echo "Restarting ELK Stack..."
-	cd elk-stack && docker-compose restart
+	cd elk-stack && docker compose restart
 
 # Applications commands
 apps-up:
 	@echo "Starting applications..."
-	cd applications && docker-compose up -d
+	cd applications && docker compose up -d
 	@echo "Applications started!"
 
 apps-down:
 	@echo "Stopping applications..."
-	cd applications && docker-compose down
+	cd applications && docker compose down
 
 apps-restart:
 	@echo "Restarting applications..."
-	cd applications && docker-compose restart
+	cd applications && docker compose restart
 
 # Build applications
 apps-build:
 	@echo "Building application images..."
-	cd applications && docker-compose build
+	cd applications && docker compose build
 
 # Combined commands
 all-up: elk-up
@@ -87,10 +87,10 @@ all-down: apps-down elk-down
 
 # Logs
 logs-elk:
-	cd elk-stack && docker-compose logs -f
+	cd elk-stack && docker compose logs -f
 
 logs-apps:
-	cd applications && docker-compose logs -f
+	cd applications && docker compose logs -f
 
 logs-python:
 	docker logs -f python-app
@@ -129,8 +129,8 @@ status: check-elk check-apps
 # Clean
 clean:
 	@echo "Stopping all services and removing volumes..."
-	cd applications && docker-compose down -v 2>/dev/null || true
-	cd elk-stack && docker-compose down -v
+	cd applications && docker compose down -v 2>/dev/null || true
+	cd elk-stack && docker compose down -v
 	@echo "Cleaned!"
 
 clean-all: clean

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   python-app:
     build:
@@ -13,8 +11,6 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-development}
     networks:
       - elk-network
-    depends_on:
-      - logstash
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pgrep", "-f", "python"]
@@ -34,8 +30,6 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-development}
     networks:
       - elk-network
-    depends_on:
-      - logstash
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pgrep", "-f", "dotnet"]
@@ -55,8 +49,6 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-development}
     networks:
       - elk-network
-    depends_on:
-      - logstash
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pgrep", "-f", "main"]
@@ -76,8 +68,6 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-development}
     networks:
       - elk-network
-    depends_on:
-      - logstash
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pgrep", "-f", "node"]
@@ -97,8 +87,6 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-development}
     networks:
       - elk-network
-    depends_on:
-      - logstash
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "pgrep", "-f", "rust-logging-app"]
