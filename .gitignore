@@ -205,3 +205,40 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Docker
+.env
+docker-compose.override.yml
+
+# Elasticsearch data
+elasticsearch-data/
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+
+# Go
+go.sum
+
+# Rust
+target/
+Cargo.lock
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-logging-app",
+  "version": "1.0.0",
+  "description": "Node.js application with ELK logging",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": ["logging", "elk", "logstash"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
