@@ -25,9 +25,7 @@ namespace LoggingApp
             {
                 counter++;
                 
-                // Fixed: Use proper modulo operation result
-                int levelIndex = counter % 5;
-                string level = levelIndex switch
+                string level = counter % 5 switch
                 {
                     0 => "DEBUG",
                     1 => "INFO",
@@ -61,7 +59,7 @@ namespace LoggingApp
                 var logData = new
                 {
                     timestamp = DateTime.UtcNow.ToString("o"),
-                    log_level = level,
+                    level = level,
                     message = message,
                     app_name = appName,
                     environment = environment,
