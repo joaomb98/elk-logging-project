@@ -1,4 +1,7 @@
-.PHONY: help elk-up elk-down elk-restart apps-up apps-down apps-restart logs-elk logs-apps logs-python logs-dotnet logs-go logs-nodejs logs-rust clean status check-elk check-apps all-up all-down
+.PHONY: help elk-up elk-down elk-restart apps-up apps-down apps-restart apps-scale all-up-2x logs-elk logs-apps logs-python logs-dotnet logs-go logs-nodejs logs-rust clean status check-elk check-apps all-up all-down
+
+# Default scaling factor (used by apps-scale and all-up-2x)
+SCALE ?= 2
 
 help:
 	@echo "ELK Logging Project - Available Commands"
@@ -60,6 +63,17 @@ apps-up:
 	cd applications && docker compose up -d
 	@echo "Applications started!"
 
+# Scale all app services. Usage: make apps-scale [SCALE=3]
+apps-scale:
+		@echo "Scaling application services to $(SCALE) replicas..."
+		cd applications && docker compose up -d \
+			--scale python-app=$(SCALE) \
+			--scale dotnet-app=$(SCALE) \
+			--scale go-app=$(SCALE) \
+			--scale nodejs-app=$(SCALE) \
+			--scale rust-app=$(SCALE)
+		@echo "Applications scaled!"
+
 apps-down:
 	@echo "Stopping applications..."
 	cd applications && docker compose down
@@ -80,6 +94,15 @@ all-up: elk-up
 	@$(MAKE) apps-up
 	@echo ""
 	@echo "All services started!"
+	@echo "Access Kibana at: http://localhost:5601"
+
+# Start ELK then start apps with scaling. Usage: make all-up-2x [SCALE=3]
+all-up-2x: elk-up
+	@echo "Waiting for ELK Stack to be ready..."
+	@sleep 30
+	@$(MAKE) apps-scale SCALE=$(SCALE)
+	@echo ""
+	@echo "All services (scaled to $(SCALE)x) started!"
 	@echo "Access Kibana at: http://localhost:5601"
 
 all-down: apps-down elk-down

@@ -65,6 +65,7 @@ services:
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD:-changeme}
       - xpack.security.enabled=false
+      - SERVER_PUBLICBASEURL=${SERVER_PUBLICBASEURL:-http://${HOST_IP:-localhost}:5601}
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
