@@ -8,8 +8,11 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=${ES_JAVA_OPTS:--Xms1g -Xmx1g}"
-      - xpack.security.enabled=false
-      - xpack.security.enrollment.enabled=false
+      - xpack.security.enabled=true
+      - xpack.security.authc.api_key.enabled=true
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=radek123                         
     ulimits:
       memlock:
         soft: -1
@@ -26,7 +29,7 @@ services:
     networks:
       - elk-network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      test: ["CMD-SHELL", "curl -u elastic:radek123 -f http://localhost:9200/_cluster/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -37,7 +40,7 @@ services:
     container_name: logstash
     environment:
       - "LS_JAVA_OPTS=${LS_JAVA_OPTS:--Xms512m -Xmx512m}"
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-changeme}
+      - ELASTIC_PASSWORD=radek123
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
@@ -63,8 +66,8 @@ services:
       - SERVERNAME=kibana
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - ELASTICSEARCH_USERNAME=kibana_system
-      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD:-changeme}
-      - xpack.security.enabled=false
+      - ELASTICSEARCH_PASSWORD=radek123
+      - xpack.security.enabled=true
       - SERVER_PUBLICBASEURL=${SERVER_PUBLICBASEURL:-http://${HOST_IP:-localhost}:5601}
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
